@@ -38,4 +38,28 @@ function math.dist(ax, az, bx, bz)
     return math.sqrt((bx - ax)*(bx - ax) + (bz - az)*(bz - az));
 end
 
+function math.round(number)
+	if number-math.floor(number) >= 0.5 then return math.ceil(number) else return math.floor(number) end
+end
+
+function math.clamp(num,min,max)
+	if num and min and max then
+		if num < min then num = min end
+		if num > max then num = max end
+		return num
+	else
+		debug.log("[ERROR] Incorrect call to function 'math.clamp(num,min,max)'")
+		return nil
+	end
+end
+
+function math.lerp(n1,n2,t)
+	if n1 and n2 and t then
+		return n1 + (n2-n1)*t
+		--return (1-t)*n1 + t*n2
+	else
+		debug.log("[ERROR] Incorrect call to function 'math.lerp(n1,n2,t)'")
+	end
+end
+
 return wLib
