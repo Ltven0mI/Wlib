@@ -22,7 +22,6 @@ loader.sys.cb.mousepressed = {}
 loader.sys.cb.mousereleased = {}
 loader.sys.cb.quit = {}
 loader.sys.cb.resize = {}
-loader.sys.cb.run = {}
 loader.sys.cb.textinput = {}
 loader.sys.cb.threaderror = {}
 loader.sys.cb.update = {}
@@ -30,92 +29,121 @@ loader.sys.cb.visible = {}
 
 
 loader.systemCount = 0
+loader.highestPriority = 0
 loader.sortedSystems = {}
 
 loader.lib = {}		--Loader Libraries
 
 -- Callbacks --
 function loader.draw()
-	for priority, sys in pairs(loader.sys.cb.draw) do
-		if sys.draw then sys.draw() end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.draw[i]
+		if sys then sys.draw(); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.errhand(msg)
-	for priority, sys in pairs(loader.sys.cb.errhand) do
-		if sys.errhand then sys.errhand() end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.errhand[i]
+		if sys then sys.errhand(msg); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.focus(f)
-	for priority, sys in pairs(loader.sys.cb.focus) do
-		if sys.focus then sys.focus() end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.focus[i]
+		if sys then sys.focus(f); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.gamepadaxis(joystick,axis,value)
-	for priority, sys in pairs(loader.sys.cb.gamepadaxis) do
-		if sys.gamepadaxis then sys.gamepadaxis(joystick, axis, value) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.gamepadaxis[i]
+		if sys then sys.gamepadaxis(joystick, axis, value); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.gamepadpressed(joystick,button)
-	for priority, sys in pairs(loader.sys.cb.gamepadpressed) do
-		if sys.gamepadpressed then sys.gamepadpressed(joystick, button) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.gamepadpressed[i]
+		if sys then sys.gamepadpressed(joystick, button); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.gamepadreleased(joystick,button)
-	for priority, sys in pairs(loader.sys.cb.gamepadreleased) do
-		if sys.gamepadreleased then sys.gamepadreleased(joystick, button) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.gamepadreleased[i]
+		if sys then sys.gamepadreleased(joystick, button); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.joystickadded(joystick)
-	for priority, sys in pairs(loader.sys.cb.joystickadded) do
-		if sys.joystickadded then sys.joystickadded(joystick) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.joystickadded[i]
+		if sys then sys.joystickadded(joystick); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.joystickaxis(joystick,axis,value)
-	for priority, sys in pairs(loader.sys.cb.joystickaxis) do
-		if sys.joystickaxis then sys.joystickaxis(joystick, axis, value) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.joystickaxis[i]
+		if sys then sys.joystickaxis(joystick, axis, value); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.joystickhat(joystick,hat,direction)
-	for priority, sys in pairs(loader.sys.cb.joystickhat) do
-		if sys.joystickhat then sys.joystickhat(joystick, axis, value) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.joystickhat[i]
+		if sys then sys.joystickhat(joystick, hat, direction); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.joystickpressed(joystick,button)
-	for priority, sys in pairs(loader.sys.cb.joystickpressed) do
-		if sys.joystickpressed then sys.joystickpressed(joystick, button) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.joystickpressed[i]
+		if sys then sys.joystickpressed(joystick, button); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.joystickreleased(joystick,button)
-	for priority, sys in pairs(loader.sys.cb.joystickreleased) do
-		if sys.joystickreleased then sys.joystickreleased(joystick, button) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.joystickreleased[i]
+		if sys then sys.joystickreleased(joystick, button); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.joystickremoved(joystick)
-	for priority, sys in pairs(loader.sys.cb.joystickremoved) do
-		if sys.joystickremoved then sys.joystickremoved(joystick) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.joystickremoved[i]
+		if sys then sys.joystickremoved(joystick); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.keypressed(key,isrepeat)
-	for priority, sys in pairs(loader.sys.cb.keypressed) do
-		if sys.keypressed then sys.keypressed(key, isrepeat) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.keypressed[i]
+		if sys then sys.keypressed(key, isrepeat); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.keyreleased(key)
-	for priority, sys in pairs(loader.sys.cb.keyreleased) do
-		if sys.keyreleased then sys.keyreleased(key) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.keyreleased[i]
+		if sys then sys.keyreleased(key); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
@@ -123,68 +151,82 @@ function loader.load(arg)
 	loader.getLibraries("/libraries")
 	loader.getSystems("/systems")
 
-	for priority, sys in pairs(loader.sys.cb.load) do
-		if sys.load then sys.load(arg) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.load[i]
+		if sys then sys.load(arg); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.mousefocus(f)
-	for priority, sys in pairs(loader.sys.cb.mousefocus) do
-		if sys.mousefocus then sys.mousefocus(f) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.mousefocus[i]
+		if sys then sys.mousefocus(f); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.mousepressed(x,y,button)
-	for priority, sys in pairs(loader.sys.cb.mousepressed) do
-		if sys.mousepressed then sys.mousepressed(x, y, button) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.mousepressed[i]
+		if sys then sys.mousepressed(x, y, button); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.mousereleased(x,y,button)
-	for priority, sys in pairs(loader.sys.cb.mousereleased) do
-		if sys.mousereleased then sys.mousereleased(x, y, button) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.mousereleased[i]
+		if sys then sys.mousereleased(x, y, button); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.quit()
-	for priority, sys in pairs(loader.sys.cb.quit) do
-		if sys.quit then sys.quit() end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.quit[i]
+		if sys then sys.quit(); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.resize(w,h)
-	for priority, sys in pairs(loader.sys.cb.resize) do
-		if sys.resize then sys.resize() end
-	end
-end
-
-function loader.run()
-	for priority, sys in pairs(loader.sys.cb.run) do
-		if sys.run then sys.run() end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.resize[i]
+		if sys then sys.resize(w, h); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.textinput(text)
-	for priority, sys in pairs(loader.sys.cb.textinput) do
-		if sys.textinput then sys.textinput(text) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.textinput[i]
+		if sys then sys.textinput(text); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.threaderror(thread,errorstr)
-	for priority, sys in pairs(loader.sys.cb.threaderror) do
-		if sys.threaderror then sys.threaderror(thread, errorstr) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.threaderror[i]
+		if sys then sys.threaderror(thread, errorstr); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.update(dt)
-	for priority, sys in pairs(loader.sys.cb.update) do
-		if sys.update then sys.update(dt) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.update[i]
+		if sys then sys.update(dt); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
 function loader.visible(v)
-	for priority, sys in pairs(loader.sys.cb.visible) do
-		if sys.visible then sys.visible(v) end
+	local i = 1
+	while i <= loader.highestPriority do
+		local sys = loader.sys.cb.visible[i]
+		if sys then sys.visible(v); i = i + 0.1 else i = math.floor(i) + 1 end
 	end
 end
 
@@ -229,6 +271,7 @@ function loader.sortSystems(systems)
 						if not holdSys then
 							print("[LOADER] Giving system '"..key.."' priority '"..priority.."'")
 							loader.sortedSystems[priority] = sys
+							if priority > loader.highestPriority then loader.highestPriority = priority end
 						else
 							local holdKey = holdSys.systemKey
 							local holdNewPri = priority
@@ -241,6 +284,7 @@ function loader.sortSystems(systems)
 							end
 							print("[LOADER] Giving system '"..key.."' priority '"..holdNewPri.."'")
 							loader.sortedSystems[holdNewPri] = sys
+							if holdNewPri > loader.highestPriority then loader.highestPriority = holdNewPri end
 						end
 					elseif type(priority) == "table" then
 
@@ -257,7 +301,6 @@ function loader.filterSystems()
 	if loader.sortedSystems then
 		for priority, sys in pairs(loader.sortedSystems) do
 			if sys then
-				local priority = sys.runPriority
 				local key = sys.systemKey
 				if priority and key then
 					debug.start("loadersystems", "[LOADER] Registering callbacks for system '"..key.."'")
@@ -281,7 +324,6 @@ function loader.filterSystems()
 					if sys.mousereleased then loader.sys.cb.mousereleased[priority] = sys; print("[LOADER] |   Registered callback 'MouseReleased'") end
 					if sys.quit then loader.sys.cb.quit[priority] = sys; print("[LOADER] |   Registered callback 'Quit'") end
 					if sys.resize then loader.sys.cb.resize[priority] = sys; print("[LOADER] |   Registered callback 'Resize'") end
-					if sys.run then loader.sys.cb.run[priority] = sys; print("[LOADER] |   Registered callback 'Run'") end
 					if sys.textinput then loader.sys.cb.textinput[priority] = sys; print("[LOADER] |   Registered callback 'TextInput'") end
 					if sys.threaderror then loader.sys.cb.threaderror[priority] = sys; print("[LOADER] |   Registered callback 'ThreadError'") end
 					if sys.update then loader.sys.cb.update[priority] = sys; print("[LOADER] |   Registered callback 'Update'") end
