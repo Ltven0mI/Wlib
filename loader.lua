@@ -249,7 +249,7 @@ function loader.getSystems(dir,isrepeat,systems)
 						print("[LOADER] Added system '"..key.."' from directory '"..dir.."' to unsorted list")
 					end
 				end
-			elseif love.filesystem.isDirectory(dir.."/"..item) then
+			elseif love.filesystem.isDirectory(dir.."/"..item) and item ~= "blacklist" then
 				loader.getSystems(dir.."/"..item, true, systems)
 			end
 		end
@@ -352,7 +352,7 @@ function loader.getLibraries(dir,isrepeat)
 					print("[LOADER] Adding lib '"..key.."' from directory '"..dir.."'")
 					loader.lib[key] = holdLib
 				end
-			elseif love.filesystem.isDirectory(dir.."/"..item) then
+			elseif love.filesystem.isDirectory(dir.."/"..item) and item ~= "blacklist" then
 				loader.getLibraries(dir.."/"..item, true)
 			end
 		end
