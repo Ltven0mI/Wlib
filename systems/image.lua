@@ -40,7 +40,7 @@ function image.getImages(dir,isrepeat,images)
 						end
 					end
 				end
-			elseif love.filesystem.isDirectory(dir.."/"..item) then
+			elseif love.filesystem.isDirectory(dir.."/"..item) and item ~= "blacklist" then
 				image.getImages(dir.."/"..item, true, images)
 			end
 		end

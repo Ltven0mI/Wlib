@@ -192,7 +192,7 @@ function object.getObjects(dir,isrepeat)
 						print("[OBJECT] Adding object '"..key.."' from directory '"..dir.."'")
 						object.objects[key] = holdObj
 					end
-				elseif love.filesystem.isDirectory(dir.."/"..item) then
+				elseif love.filesystem.isDirectory(dir.."/"..item) and item ~= "blacklist" then
 					object.getObjects(dir.."/"..item, true)
 				end
 			end
