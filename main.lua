@@ -4,6 +4,8 @@ main.loader = require "loader"
 -- Variables --
 main.debugMode = true
 main.font = love.graphics.getFont()
+main.width = love.graphics.getWidth()
+main.height = love.graphics.getHeight()
 
 -- Callbacks --
 function love.draw()
@@ -161,6 +163,8 @@ function love.quit()
 end
 
 function love.resize(w,h)
+	main.width = w
+	main.height = h
 	main.loader.resize(w, h)
 end
 
