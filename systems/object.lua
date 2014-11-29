@@ -1,7 +1,7 @@
 -- System Settings --
 object = {}
 object.systemKey = "object"
-object.runPriority = 4
+object.runPriority = 7
 
 -- Variables --
 object.objects = {}
@@ -17,13 +17,13 @@ end
 
 function object.errhand(msg)
 	for uid, obj in pairs(object.createdObjects) do
-		if obj.errhand then obj:errhand() end
+		if obj.errhand then obj:errhand(msg) end
 	end
 end
 
 function object.focus(f)
 	for uid, obj in pairs(object.createdObjects) do
-		if obj.focus then obj:focus() end
+		if obj.focus then obj:focus(f) end
 	end
 end
 
@@ -59,7 +59,7 @@ end
 
 function object.joystickhat(joystick,hat,direction)
 	for uid, obj in pairs(object.createdObjects) do
-		if obj.joystickhat then obj:joystickhat(joystick, axis, value) end
+		if obj.joystickhat then obj:joystickhat(joystick,hat,direction) end
 	end
 end
 
@@ -127,7 +127,7 @@ end
 
 function object.resize(w,h)
 	for uid, obj in pairs(object.createdObjects) do
-		if obj.resize then obj:resize() end
+		if obj.resize then obj:resize(w, h) end
 	end
 end
 
@@ -188,7 +188,7 @@ function object.getObjects(dir,isrepeat)
 				if love.filesystem.isFile(dir.."/"..item) then
 					local holdObj = require(dir.."/"..key)
 					if holdObj and type(holdObj) == "table" then
-						print("[OBJECT] Adding object '"..key.."' from directory '"..dir.."'")
+						debug.log("[OBJECT] Adding object '"..key.."' from directory '"..dir.."'")
 						object.objects[key] = holdObj
 					end
 				elseif love.filesystem.isDirectory(dir.."/"..item) and item ~= "blacklist" then
