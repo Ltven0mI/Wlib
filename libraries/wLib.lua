@@ -138,7 +138,7 @@ function math.clamp(num,min,max)
 		if num > max then num = max end
 		return num
 	else
-		debug.log("[ERROR] Incorrect call to function 'math.clamp(num,min,max)'")
+		debug.err("Incorrect call to function 'math.clamp(num,min,max)'")
 		return nil
 	end
 end
@@ -148,7 +148,7 @@ function math.lerp(n1,n2,t)
 		local dt = love.timer.getDelta()
 		return n1 + ((n2-n1)*t)*(dt*100)
 	else
-		debug.log("[ERROR] Incorrect call to function 'math.lerp(n1,n2,t)'")
+		debug.err("Incorrect call to function 'math.lerp(n1,n2,t)'")
 	end
 end
 
@@ -166,7 +166,7 @@ function math.anglerp(n1,n2,t)
 		if n1 < 0 then n1 = n1 + 360 end
 		return n1
 	else
-		debug.log("[ERROR] Incorrect call to function 'math.anglerp(n1,n2,t)'")
+		debug.err("Incorrect call to function 'math.anglerp(n1,n2,t)'")
 	end
 end
 
@@ -178,7 +178,20 @@ function math.norm(x,y)
 		if yy ~= yy then yy = 0 end
 		return xx, yy
 	else
-		debug.log("[ERROR] Incorrect call to function 'math.norm(x,y)'")
+		debug.err("Incorrect call to function 'math.norm(x,y)'")
+	end
+end
+
+function math.contains(x1,y1,w1,h1,x2,y2,w2,h2)
+	if x1 and y1 and w1 and h1 and x2 and y2 and w2 and h2 then
+		if (x2<x1 and x2+w2>x1 or x2<x1+w1 and x2+w2>x1+w1 or x2>=x1 and x2+w2<=x1+w1) then
+			if ((y2<y1 and y2+h2>y1) or (y2<y1+h1 and y2+h2>y1+h1) or (y2>=y1 and y2+h2<=y1+h1)) then
+				return true
+			end
+		end
+		return false
+	else
+		debug.err("Incorrect call to function 'math.contains(x1,y1,w1,h1,x2,y2,w2,h2)'")
 	end
 end
 
