@@ -5,7 +5,7 @@ camera.runPriority = 3
 -- Variables --
 camera.var = {}
 camera.var.pos = {x=0,y=0}
-camera.var.scale = 1
+camera.var.scale = 0.5
 camera.var.rot = 0
 camera.var.mode = "world"
 camera.var.modeOffset = {x=0, y=0}
@@ -20,6 +20,7 @@ camera.pushCount = 0
 function camera.load(args)
 	camera.window.w = main.w
 	camera.window.h = main.h
+	camera.var.scale = (main.width+main.height)/1750
 end
 
 function camera.draw()
@@ -36,7 +37,7 @@ function camera.setPos(x,y)
 		camera.var.pos.x = math.round(x)
 		camera.var.pos.y = math.round(y)
 	else
-		debug.log("[ERROR] Incorrect call to function 'camera.setPos(x,y)'")
+		debug.err("Incorrect call to function 'camera.setPos(x,y)'")
 	end
 end
 
@@ -47,7 +48,7 @@ function camera.centerPos(x,y)
 		camera.var.scaleOffset.x = math.round((main.width/2/camera.var.scale)*(-camera.var.scale+1))
 		camera.var.scaleOffset.y = math.round((main.height/2/camera.var.scale)*(-camera.var.scale+1))
 	else
-		debug.log("[ERROR] Incorrect call to function 'camera.center(x,y)'")
+		debug.err("Incorrect call to function 'camera.center(x,y)'")
 	end
 end
 
@@ -80,7 +81,7 @@ function camera.setMode(mode)
 			debug.log("[WARNING] Argument 'mode' in call to function 'camera.setMode(mode)' must be 'world' or 'screen'")
 		end
 	else
-		debug.log("[ERROR] Incorrect call to function 'camera.setMode(mode)'")
+		debug.err("Incorrect call to function 'camera.setMode(mode)'")
 	end
 end
 
@@ -88,9 +89,13 @@ function camera.getMode()
 	return camera.var.mode
 end
 
+function camera.getScale()
+	return camera.var.scale
+end
+
 function camera.getMouse()
 	local mx, my = love.mouse.getPosition()
-	if camera.var.mode == "world" then return mx+camera.var.pos.x+camera.var.scaleOffset.x, my+camera.var.pos.y+camera.var.scaleOffset.y elseif camera.var.mode == "screen" then return mx, my end
+	if camera.var.mode == "world" then return math.round((mx+camera.var.pos.x*camera.var.scale)/camera.var.scale), math.round((my+camera.var.pos.y*camera.var.scale)/camera.var.scale) elseif camera.var.mode == "screen" then return mx, my end
 end
 
 function camera.push()
