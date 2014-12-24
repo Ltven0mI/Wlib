@@ -171,7 +171,7 @@ function object.new(...)
 			return object.createdObjects[uid]
 		end
 	else
-		debug.log("[ERROR] Incorrect call to function 'object.new(...)'")
+		debug.err("Incorrect call to function 'object.new(...)'")
 	end
 end
 
@@ -196,8 +196,9 @@ function object.getObjects(dir,isrepeat)
 				end
 			end
 		end
+		if not isrepeat then debug.log() end
 	else
-		debug.log("[ERROR] Incorrect call to function 'object.getObjects(dir,isrepeat)'")
+		debug.err("Incorrect call to function 'object.getObjects(dir,isrepeat)'")
 	end
 end
 
@@ -214,26 +215,33 @@ function object.getObject(uid)
 			return nil
 		end
 	else
-		debug.log("[ERROR] Incorrect call to function 'object.getObject(uid)'")
+		debug.err("Incorrect call to function 'object.getObject(uid)'")
 	end
 end
 
 function object.destroyObject(arg)
 	if arg then
 		if type(arg) == "number" then
+			if object.createdObjects[arg].onDestroy then object.createdObjects[arg]:onDestroy() end
 			if object.createdObjects[arg] then
 				object.createdObjects[arg] = nil
 			end
 		elseif type(arg) == "table" then
 			if arg.uid then
+				if object.createdObjects[arg.uid].onDestroy then object.createdObjects[arg.uid]:onDestroy() end
 				if object.createdObjects[arg.uid] then
 					object.createdObjects[arg.uid] = nil
 				end
 			end
 		end
 	else
-		debug.log("[ERROR] Incorrect call to function 'object.destroyObject(arg)'")
+		debug.err("Incorrect call to function 'object.destroyObject(arg)'")
 	end
+end
+
+function object.clearObjects()
+	for key, val in pairs(object.createdObjects) do object.createdObjects[key] = nil end
+	object.createdObjects = {}
 end
 
 return object
