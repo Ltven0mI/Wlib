@@ -3,14 +3,23 @@ debug = {}
 -- Functions --
 function debug.log(...)
 	if main.debugMode == true then
-		for k, v in pairs({...}) do io.write(v.." ") end
+		for k, v in pairs({...}) do io.write(tostring(v).." ") end
 		io.write("\n")
 	end
 end
 
 function debug.write(...)
 	if main.debugMode == true then
-		for k, v in pairs({...}) do io.write(v.." ") end
+		for k, v in pairs({...}) do io.write(tostring(v).." ") end
+	end
+end
+
+function debug.err(...)
+	if main.debugMode == true then
+		local msg = ""
+		for k, v in pairs({...}) do msg = msg..tostring(v).." " end
+		love.errhand(msg)
+		love.event.quit()
 	end
 end
 
