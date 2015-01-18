@@ -9,9 +9,15 @@ object.createdObjects = {}
 object.objCount = 0
 
 -- Callbacks --
-function object.draw()
+function object.drawworld()
 	for uid, obj in pairs(object.createdObjects) do
-		if obj.draw then obj:draw() end
+		if obj.drawworld then obj:drawworld() end
+	end
+end
+
+function object.drawscreen()
+	for uid, obj in pairs(object.createdObjects) do
+		if obj.drawscreen then obj:drawscreen() end
 	end
 end
 
@@ -222,14 +228,14 @@ end
 function object.destroyObject(arg)
 	if arg then
 		if type(arg) == "number" then
-			if object.createdObjects[arg].onDestroy then object.createdObjects[arg]:onDestroy() end
 			if object.createdObjects[arg] then
+				if object.createdObjects[arg].onDestroy then object.createdObjects[arg]:onDestroy() end
 				object.createdObjects[arg] = nil
 			end
 		elseif type(arg) == "table" then
 			if arg.uid then
-				if object.createdObjects[arg.uid].onDestroy then object.createdObjects[arg.uid]:onDestroy() end
 				if object.createdObjects[arg.uid] then
+					if object.createdObjects[arg.uid].onDestroy then object.createdObjects[arg.uid]:onDestroy() end
 					object.createdObjects[arg.uid] = nil
 				end
 			end
